@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Modificadores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+                Calculadora de Modificadores
+            </h1>
+            
+            <div class="mb-6">
+                <label class="block text-gray-700 font-semibold mb-2">
+                    Digite um número (0-20):
+                </label>
+                <input
+                    type="number"
+                    id="numberInput"
+                    class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none text-xl text-center"
+                    placeholder="0"
+                    min="0"
+                    max="20"
+                />
+            </div>
+
+            <div id="resultBox" class="bg-gradient-to-r from-green-400 to-blue-500 rounded-xl p-6 mb-6 text-white hidden">
+                <div class="text-center">
+                    <p class="text-sm font-semibold mb-2">Resultado:</p>
+                    <p id="resultValue" class="text-5xl font-bold"></p>
+                    <p id="modifierText" class="text-sm mt-2 opacity-90"></p>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 rounded-xl p-4">
+                <h2 class="font-bold text-gray-700 mb-3 text-center">Tabela de Modificadores</h2>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between items-center p-2 bg-white rounded">
+                        <span class="font-semibold text-gray-700">0 a 5</span>
+                        <span class="text-red-600 font-bold">-5</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2 bg-white rounded">
+                        <span class="font-semibold text-gray-700">6 a 10</span>
+                        <span class="text-gray-600 font-bold">normal</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2 bg-white rounded">
+                        <span class="font-semibold text-gray-700">11 a 15</span>
+                        <span class="text-green-600 font-bold">+5</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2 bg-white rounded">
+                        <span class="font-semibold text-gray-700">16 a 19</span>
+                        <span class="text-blue-600 font-bold">+10</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2 bg-white rounded">
+                        <span class="font-semibold text-gray-700">20</span>
+                        <span class="text-purple-600 font-bold">+15</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('numberInput');
+        const resultBox = document.getElementById('resultBox');
+        const resultValue = document.getElementById('resultValue');
+        const modifierText = document.getElementById('modifierText');
+
+        function calculateResult(num) {
+            const n = parseInt(num);
+            
+            if (isNaN(n)) {
+                return null;
+            }
+            
+            if (n >= 0 && n <= 5) {
+                return n - 5;
+            } else if (n >= 6 && n <= 10) {
+                return n;
+            } else if (n >= 11 && n <= 15) {
+                return n + 5;
+            } else if (n >= 16 && n <= 19) {
+                return n + 10;
+            } else if (n === 20) {
+                return n + 15;
+            }
+            
+            return null;
+        }
+
+        function getModifierText(num) {
+            const n = parseInt(num);
+            if (isNaN(n)) return '';
+            
+            if (n >= 0 && n <= 5) return '-5';
+            if (n >= 6 && n <= 10) return 'normal';
+            if (n >= 11 && n <= 15) return '+5';
+            if (n >= 16 && n <= 19) return '+10';
+            if (n === 20) return '+15';
+            return '';
+        }
+
+        input.addEventListener('input', function() {
+            const value = this.value;
+            
+            if (value === '') {
+                resultBox.classList.add('hidden');
+                return;
+            }
+            
+            const result = calculateResult(value);
+            
+            if (result !== null) {
+                resultValue.textContent = result;
+                modifierText.textContent = 'Modificador: ' + getModifierText(value);
+                resultBox.classList.remove('hidden');
+            } else {
+                resultBox.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
