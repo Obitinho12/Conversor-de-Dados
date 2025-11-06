@@ -5,280 +5,326 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Modificadores</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .dice-spin {
-            animation: spin 0.5s ease-out;
-        }
-    </style>
 </head>
-<body class="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 min-h-screen flex items-center justify-center p-4">
-    
-    <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-2xl">
+<body>
+    <div class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-2xl">
         
         <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">
-            Calculadora de Modificadores
+          Calculadora de Modificadores
         </h1>
         
-        <!-- Sistema de Rolagem -->
         <div class="grid grid-cols-2 gap-6 mb-8">
-            
-            <!-- D20 Base (Atributos) -->
-            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6">
-                <h3 class="text-center font-bold text-blue-800 mb-3">🎲 Atributos (Base)</h3>
-                <div class="flex items-center justify-center mb-4">
-                    <input type="number" id="diceCountBase" value="1" min="1" max="10" 
-                        class="w-16 px-2 py-1 text-center border-2 border-blue-300 rounded-lg font-bold">
-                    <span class="mx-2 font-bold text-blue-800">D20</span>
-                </div>
-                <button id="rollBase" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-xl transition-all transform hover:scale-105">
-                    🎲 Rolar Base
-                </button>
-                <div id="baseRolls" class="mt-3 text-sm text-center text-blue-700 font-semibold min-h-6"></div>
+          
+          <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6">
+            <h3 class="text-center font-bold text-blue-800 mb-3">🎲 Atributos (Base)</h3>
+            <div class="flex items-center justify-center mb-4">
+              <input 
+                type="number" 
+                id="diceCountBase"
+                value="1"
+                min="1" 
+                max="10" 
+                class="w-16 px-2 py-1 text-center border-2 border-blue-300 rounded-lg font-bold"
+              />
+              <span class="mx-2 font-bold text-blue-800">D20</span>
             </div>
+            <button 
+              id="rollBase"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-xl transition-all transform hover:scale-105"
+            >
+              🎲 Rolar Base
+            </button>
+            <div id="baseRollsDisplay" class="mt-3 text-sm text-center text-blue-700 font-semibold min-h-6"></div>
+          </div>
 
-            <!-- D20 Modificador (Perícia) -->
-            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6">
-                <h3 class="text-center font-bold text-purple-800 mb-3">🎲 Perícia (Mod)</h3>
-                <div class="flex items-center justify-center mb-4">
-                    <input type="number" id="diceCountMod" value="1" min="1" max="10" 
-                        class="w-16 px-2 py-1 text-center border-2 border-purple-300 rounded-lg font-bold">
-                    <span class="mx-2 font-bold text-purple-800">D20</span>
-                </div>
-                <button id="rollMod" class="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 rounded-xl transition-all transform hover:scale-105">
-                    🎲 Rolar Perícia
-                </button>
-                <div id="modRolls" class="mt-3 text-sm text-center text-purple-700 font-semibold min-h-6"></div>
+          <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6">
+            <h3 class="text-center font-bold text-purple-800 mb-3">🎲 Perícia (Mod)</h3>
+            <div class="flex items-center justify-center mb-4">
+              <input 
+                type="number" 
+                id="diceCountMod"
+                value="1"
+                min="1" 
+                max="10" 
+                class="w-16 px-2 py-1 text-center border-2 border-purple-300 rounded-lg font-bold"
+              />
+              <span class="mx-2 font-bold text-purple-800">D20</span>
             </div>
+            <button 
+              id="rollMod"
+              class="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 rounded-xl transition-all transform hover:scale-105"
+            >
+              🎲 Rolar Perícia
+            </button>
+            <div id="modRollsDisplay" class="mt-3 text-sm text-center text-purple-700 font-semibold min-h-6"></div>
+          </div>
         </div>
 
-        <!-- Botão Rolar Tudo -->
-        <button id="rollAll" class="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-4 rounded-xl mb-8 transition-all transform hover:scale-105 text-lg">
-            🎲 ROLAR TUDO! 🎲
+        <button 
+          id="rollAll"
+          class="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-4 rounded-xl mb-8 transition-all transform hover:scale-105 text-lg"
+        >
+          🎲 ROLAR TUDO! 🎲
         </button>
 
-        <!-- Campos de Entrada Manual -->
         <div class="grid grid-cols-2 gap-4 mb-6">
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2 text-sm">
-                    Número Base:
-                </label>
-                <input
-                    type="number"
-                    id="baseNumber"
-                    class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-center text-xl font-semibold focus:outline-none focus:border-blue-400 focus:bg-white transition-all"
-                    placeholder="0"
-                />
-            </div>
+          <div>
+            <label class="block text-gray-700 font-semibold mb-2 text-sm">
+              Número Base (1-20):
+            </label>
+            <input
+              type="number"
+              id="baseNumber"
+              min="1"
+              max="20"
+              class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-center text-xl font-semibold focus:outline-none focus:border-blue-400 focus:bg-white transition-all"
+              placeholder="1-20"
+            />
+          </div>
 
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2 text-sm">
-                    Modificador (0-20):
-                </label>
-                <input
-                    type="number"
-                    id="modifierNumber"
-                    class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-center text-xl font-semibold focus:outline-none focus:border-purple-400 focus:bg-white transition-all"
-                    placeholder="0"
-                    min="0"
-                    max="20"
-                />
-            </div>
+          <div>
+            <label class="block text-gray-700 font-semibold mb-2 text-sm">
+              Modificador (1-20):
+            </label>
+            <input
+              type="number"
+              id="modifierNumber"
+              min="1"
+              max="20"
+              class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-center text-xl font-semibold focus:outline-none focus:border-purple-400 focus:bg-white transition-all"
+              placeholder="1-20"
+            />
+          </div>
         </div>
 
-        <!-- Histórico de Cálculos -->
-        <div id="calculationHistory" class="mb-6 hidden">
-            <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4">
-                <h3 class="font-bold text-yellow-800 mb-2 text-sm">📊 Histórico de Cálculos:</h3>
-                <div id="historySteps" class="text-sm text-yellow-900 space-y-1"></div>
-            </div>
+        <div id="historyContainer" class="mb-6 hidden">
+          <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4">
+            <h3 class="font-bold text-yellow-800 mb-2 text-sm">📊 Histórico de Cálculos:</h3>
+            <div id="historySteps" class="text-sm text-yellow-900 space-y-1"></div>
+          </div>
         </div>
 
-        <!-- Resultado -->
-        <div id="resultBox" class="mb-8 p-6 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl text-white text-center hidden">
-            <p class="text-sm font-semibold mb-2 opacity-90">🎯 Resultado Final</p>
-            <p id="resultValue" class="text-6xl font-bold mb-2"></p>
-            <p id="calculationText" class="text-sm opacity-90"></p>
+        <div id="resultContainer" class="mb-8 p-6 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl text-white text-center hidden">
+          <p class="text-sm font-semibold mb-2 opacity-90">🎯 Resultado Final</p>
+          <p id="resultValue" class="text-6xl font-bold mb-2"></p>
+          <p id="resultText" class="text-sm opacity-90"></p>
         </div>
 
-        <!-- Tabela -->
         <div class="bg-gray-50 rounded-2xl p-6">
-            <h2 class="font-bold text-gray-800 mb-4 text-center text-lg">
-                📋 Tabela de Modificadores
-            </h2>
-            
-            <div class="space-y-3">
-                <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                    <span class="text-gray-700 font-medium">0 a 5</span>
-                    <span class="text-red-600 font-bold text-lg">-5</span>
-                </div>
-                
-                <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                    <span class="text-gray-700 font-medium">6 a 10</span>
-                    <span class="text-gray-600 font-bold text-lg">0 (normal)</span>
-                </div>
-                
-                <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                    <span class="text-gray-700 font-medium">11 a 15</span>
-                    <span class="text-green-600 font-bold text-lg">+5</span>
-                </div>
-                
-                <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                    <span class="text-gray-700 font-medium">16 a 19</span>
-                    <span class="text-blue-600 font-bold text-lg">+10</span>
-                </div>
-                
-                <div class="flex justify-between items-center py-3">
-                    <span class="text-gray-700 font-medium">20</span>
-                    <span class="text-purple-600 font-bold text-lg">+15</span>
-                </div>
+          <h2 class="font-bold text-gray-800 mb-4 text-center text-lg">
+            📋 Tabela de Modificadores
+          </h2>
+          
+          <div class="space-y-3">
+            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+              <span class="text-gray-700 font-medium">0 a 5</span>
+              <span class="text-red-600 font-bold text-lg">-5</span>
             </div>
+            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+              <span class="text-gray-700 font-medium">6 a 10</span>
+              <span class="text-gray-600 font-bold text-lg">0 (normal)</span>
+            </div>
+            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+              <span class="text-gray-700 font-medium">11 a 15</span>
+              <span class="text-green-600 font-bold text-lg">+5</span>
+            </div>
+            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+              <span class="text-gray-700 font-medium">16 a 19</span>
+              <span class="text-blue-600 font-bold text-lg">+10</span>
+            </div>
+            <div class="flex justify-between items-center py-3">
+              <span class="text-gray-700 font-medium">20</span>
+              <span class="text-purple-600 font-bold text-lg">+15</span>
+            </div>
+          </div>
         </div>
         
+      </div>
     </div>
 
     <script>
-        const baseInput = document.getElementById('baseNumber');
-        const modifierInput = document.getElementById('modifierNumber');
-        const resultBox = document.getElementById('resultBox');
+      let baseRolls = [];
+      let modRolls = [];
+
+      const rollD20 = () => Math.floor(Math.random() * 20) + 1;
+
+      const getModifier = (num) => {
+        const n = parseInt(num);
+        if (isNaN(n)) return null;
+        
+        if (n >= 0 && n <= 5) return -5;
+        if (n >= 6 && n <= 10) return 0;
+        if (n >= 11 && n <= 15) return 5;
+        if (n >= 16 && n <= 19) return 10;
+        if (n === 20) return 15;
+        
+        return null;
+      };
+
+      const calculateWithHistory = (base, modifiers) => {
+        let current = base;
+        const steps = [`Base inicial: ${base}`];
+        
+        modifiers.forEach((mod, index) => {
+          const modifier = getModifier(mod);
+          const modText = modifier >= 0 ? '+' + modifier : modifier;
+          const newValue = current + modifier;
+          steps.push(`Mod ${index + 1} (D20=${mod}): ${current} ${modText} = ${newValue}`);
+          current = newValue;
+        });
+        
+        return { final: current, steps };
+      };
+
+      const displayResult = (base, modifiers) => {
+        const resultContainer = document.getElementById('resultContainer');
         const resultValue = document.getElementById('resultValue');
-        const calculationText = document.getElementById('calculationText');
-        const historyDiv = document.getElementById('calculationHistory');
+        const resultText = document.getElementById('resultText');
+        const historyContainer = document.getElementById('historyContainer');
         const historySteps = document.getElementById('historySteps');
-        const baseRollsDiv = document.getElementById('baseRolls');
-        const modRollsDiv = document.getElementById('modRolls');
 
-        let lastBaseRolls = [];
-        let lastModRolls = [];
-
-        function rollD20() {
-            return Math.floor(Math.random() * 20) + 1;
+        if (modifiers.length === 0) {
+          resultContainer.classList.add('hidden');
+          historyContainer.classList.add('hidden');
+          return;
         }
 
-        function getModifier(num) {
-            const n = parseInt(num);
-            if (isNaN(n)) return null;
-            
-            if (n >= 0 && n <= 5) return -5;
-            if (n >= 6 && n <= 10) return 0;
-            if (n >= 11 && n <= 15) return 5;
-            if (n >= 16 && n <= 19) return 10;
-            if (n === 20) return 15;
-            
-            return null;
+        const result = calculateWithHistory(base, modifiers);
+        
+        resultValue.textContent = result.final;
+        resultText.textContent = `Base: ${base} → Final: ${result.final}`;
+        resultContainer.classList.remove('hidden');
+        
+        if (modifiers.length > 1) {
+          historySteps.innerHTML = result.steps.map(step => 
+            `<div class="py-1">${step}</div>`
+          ).join('');
+          historyContainer.classList.remove('hidden');
+        } else {
+          historyContainer.classList.add('hidden');
         }
+      };
 
-        function calculateWithHistory(base, modifiers) {
-            let current = base;
-            const steps = [];
-            
-            steps.push(`Base inicial: ${base}`);
-            
-            modifiers.forEach((mod, index) => {
-                const modifier = getModifier(mod);
-                const modText = modifier >= 0 ? '+' + modifier : modifier;
-                const newValue = current + modifier;
-                steps.push(`Mod ${index + 1} (D20=${mod}): ${current} ${modText} = ${newValue}`);
-                current = newValue;
-            });
-            
-            return { final: current, steps };
+      const handleManualCalculate = () => {
+        const baseInput = document.getElementById('baseNumber');
+        const modInput = document.getElementById('modifierNumber');
+        const base = baseInput.value;
+        const modNum = modInput.value;
+        
+        if (base === '' || modNum === '') {
+          document.getElementById('resultContainer').classList.add('hidden');
+          document.getElementById('historyContainer').classList.add('hidden');
+          return;
         }
-
-        function displayResult(base, modifiers) {
-            if (modifiers.length === 0) {
-                resultBox.classList.add('hidden');
-                historyDiv.classList.add('hidden');
-                return;
-            }
-
-            const result = calculateWithHistory(base, modifiers);
-            
-            resultValue.textContent = result.final;
-            calculationText.textContent = `Base: ${base} → Final: ${result.final}`;
-            resultBox.classList.remove('hidden');
-            
-            if (modifiers.length > 1) {
-                historySteps.innerHTML = result.steps.map(step => 
-                    `<div class="py-1">${step}</div>`
-                ).join('');
-                historyDiv.classList.remove('hidden');
-            } else {
-                historyDiv.classList.add('hidden');
-            }
+        
+        const baseValue = parseInt(base);
+        const modValue = parseInt(modNum);
+        
+        // Validar limites
+        if (isNaN(baseValue) || baseValue < 1 || baseValue > 20) {
+          document.getElementById('resultContainer').classList.add('hidden');
+          document.getElementById('historyContainer').classList.add('hidden');
+          return;
         }
-
-        function calculate() {
-            const base = baseInput.value;
-            const modNum = modifierInput.value;
-            
-            if (base === '' || modNum === '') {
-                resultBox.classList.add('hidden');
-                historyDiv.classList.add('hidden');
-                return;
-            }
-            
-            const baseValue = parseInt(base);
-            const modifier = getModifier(modNum);
-            
-            if (isNaN(baseValue) || modifier === null) {
-                resultBox.classList.add('hidden');
-                historyDiv.classList.add('hidden');
-                return;
-            }
-            
-            displayResult(baseValue, [parseInt(modNum)]);
+        
+        if (isNaN(modValue) || modValue < 1 || modValue > 20) {
+          document.getElementById('resultContainer').classList.add('hidden');
+          document.getElementById('historyContainer').classList.add('hidden');
+          return;
         }
+        
+        displayResult(baseValue, [modValue]);
+      };
 
-        document.getElementById('rollBase').addEventListener('click', () => {
-            const count = parseInt(document.getElementById('diceCountBase').value);
-            lastBaseRolls = [];
-            for (let i = 0; i < count; i++) {
-                lastBaseRolls.push(rollD20());
-            }
-            const max = Math.max(...lastBaseRolls);
-            baseInput.value = max;
-            baseRollsDiv.textContent = `Rolagens: [${lastBaseRolls.join(', ')}] → Max: ${max}`;
-            baseRollsDiv.classList.add('dice-spin');
-            setTimeout(() => baseRollsDiv.classList.remove('dice-spin'), 500);
-            calculate();
-        });
+      document.getElementById('rollBase').addEventListener('click', () => {
+        const count = parseInt(document.getElementById('diceCountBase').value) || 1;
+        baseRolls = [];
+        for (let i = 0; i < count; i++) {
+          baseRolls.push(rollD20());
+        }
+        const max = Math.max(...baseRolls);
+        document.getElementById('baseNumber').value = max;
+        document.getElementById('baseRollsDisplay').textContent = 
+          `[${baseRolls.join(', ')}] → Max: ${max}`;
+        
+        if (modRolls.length > 0) {
+          displayResult(max, modRolls);
+        }
+      });
 
-        document.getElementById('rollMod').addEventListener('click', () => {
-            const count = parseInt(document.getElementById('diceCountMod').value);
-            lastModRolls = [];
-            for (let i = 0; i < count; i++) {
-                lastModRolls.push(rollD20());
-            }
-            
-            if (lastModRolls.length === 1) {
-                modifierInput.value = lastModRolls[0];
-                modRollsDiv.textContent = `Rolagem: ${lastModRolls[0]}`;
-            } else {
-                modRollsDiv.textContent = `Rolagens: [${lastModRolls.join(', ')}]`;
-            }
-            
-            modRollsDiv.classList.add('dice-spin');
-            setTimeout(() => modRollsDiv.classList.remove('dice-spin'), 500);
-            
-            if (baseInput.value !== '') {
-                const base = parseInt(baseInput.value);
-                displayResult(base, lastModRolls);
-            }
-        });
+      document.getElementById('rollMod').addEventListener('click', () => {
+        const count = parseInt(document.getElementById('diceCountMod').value) || 1;
+        modRolls = [];
+        for (let i = 0; i < count; i++) {
+          modRolls.push(rollD20());
+        }
+        
+        document.getElementById('modRollsDisplay').textContent = 
+          `[${modRolls.join(', ')}]`;
+        
+        const baseValue = document.getElementById('baseNumber').value;
+        if (baseValue !== '') {
+          displayResult(parseInt(baseValue), modRolls);
+        }
+      });
 
-        document.getElementById('rollAll').addEventListener('click', () => {
-            document.getElementById('rollBase').click();
-            setTimeout(() => {
-                document.getElementById('rollMod').click();
-            }, 100);
-        });
+      document.getElementById('rollAll').addEventListener('click', () => {
+        const baseCount = parseInt(document.getElementById('diceCountBase').value) || 1;
+        const modCount = parseInt(document.getElementById('diceCountMod').value) || 1;
+        
+        baseRolls = [];
+        modRolls = [];
+        
+        for (let i = 0; i < baseCount; i++) {
+          baseRolls.push(rollD20());
+        }
+        for (let i = 0; i < modCount; i++) {
+          modRolls.push(rollD20());
+        }
+        
+        const max = Math.max(...baseRolls);
+        document.getElementById('baseNumber').value = max;
+        document.getElementById('baseRollsDisplay').textContent = 
+          `[${baseRolls.join(', ')}] → Max: ${max}`;
+        document.getElementById('modRollsDisplay').textContent = 
+          `[${modRolls.join(', ')}]`;
+        
+        displayResult(max, modRolls);
+      });
 
-        baseInput.addEventListener('input', calculate);
-        modifierInput.addEventListener('input', calculate);
+      document.getElementById('baseNumber').addEventListener('input', handleManualCalculate);
+      document.getElementById('modifierNumber').addEventListener('input', handleManualCalculate);
+
+      // Validação dos campos de contagem de dados
+      document.getElementById('diceCountBase').addEventListener('blur', (e) => {
+        const val = parseInt(e.target.value);
+        if (isNaN(val) || val < 1) e.target.value = 1;
+        if (val > 10) e.target.value = 10;
+      });
+
+      document.getElementById('diceCountMod').addEventListener('blur', (e) => {
+        const val = parseInt(e.target.value);
+        if (isNaN(val) || val < 1) e.target.value = 1;
+        if (val > 10) e.target.value = 10;
+      });
+
+      // Validação dos campos base e modificador (1-20)
+      document.getElementById('baseNumber').addEventListener('blur', (e) => {
+        const val = parseInt(e.target.value);
+        if (!isNaN(val)) {
+          if (val < 1) e.target.value = 1;
+          if (val > 20) e.target.value = 20;
+        }
+      });
+
+      document.getElementById('modifierNumber').addEventListener('blur', (e) => {
+        const val = parseInt(e.target.value);
+        if (!isNaN(val)) {
+          if (val < 1) e.target.value = 1;
+          if (val > 20) e.target.value = 20;
+        }
+      });
     </script>
 </body>
 </html>
