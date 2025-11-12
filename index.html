@@ -83,15 +83,15 @@
 
           <div>
             <label class="block text-gray-700 font-semibold mb-2 text-sm">
-              Modificador (1-20):
+              Modificador (0-20):
             </label>
             <input
               type="number"
               id="modifierNumber"
-              min="1"
+              min="0"
               max="20"
               class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-center text-xl font-semibold focus:outline-none focus:border-purple-400 focus:bg-white transition-all"
-              placeholder="1-20"
+              placeholder="0-20"
             />
           </div>
         </div>
@@ -226,7 +226,7 @@
           return;
         }
         
-        if (isNaN(modValue) || modValue < 1 || modValue > 20) {
+        if (isNaN(modValue) || modValue < 0 || modValue > 20) {
           document.getElementById('resultContainer').classList.add('hidden');
           document.getElementById('historyContainer').classList.add('hidden');
           return;
@@ -307,11 +307,11 @@
         if (val > 10) e.target.value = 10;
       });
 
-      // Validação apenas do modificador (1-20), base pode ser qualquer valor
+      // Validação apenas do modificador (0-20), base pode ser qualquer valor
       document.getElementById('modifierNumber').addEventListener('blur', (e) => {
         const val = parseInt(e.target.value);
         if (!isNaN(val)) {
-          if (val < 1) e.target.value = 1;
+          if (val < 0) e.target.value = 0;
           if (val > 20) e.target.value = 20;
         }
       });
