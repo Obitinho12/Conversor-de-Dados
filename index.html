@@ -71,15 +71,13 @@
         <div class="grid grid-cols-2 gap-4 mb-6">
           <div>
             <label class="block text-gray-700 font-semibold mb-2 text-sm">
-              Número Base (1-20):
+              Número Base:
             </label>
             <input
               type="number"
               id="baseNumber"
-              min="1"
-              max="20"
               class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-center text-xl font-semibold focus:outline-none focus:border-blue-400 focus:bg-white transition-all"
-              placeholder="1-20"
+              placeholder="Qualquer número"
             />
           </div>
 
@@ -221,8 +219,8 @@
         const baseValue = parseInt(base);
         const modValue = parseInt(modNum);
         
-        // Validar limites
-        if (isNaN(baseValue) || baseValue < 1 || baseValue > 20) {
+        // Validar apenas o modificador (1-20), base pode ser qualquer valor
+        if (isNaN(baseValue)) {
           document.getElementById('resultContainer').classList.add('hidden');
           document.getElementById('historyContainer').classList.add('hidden');
           return;
@@ -309,15 +307,7 @@
         if (val > 10) e.target.value = 10;
       });
 
-      // Validação dos campos base e modificador (1-20)
-      document.getElementById('baseNumber').addEventListener('blur', (e) => {
-        const val = parseInt(e.target.value);
-        if (!isNaN(val)) {
-          if (val < 1) e.target.value = 1;
-          if (val > 20) e.target.value = 20;
-        }
-      });
-
+      // Validação apenas do modificador (1-20), base pode ser qualquer valor
       document.getElementById('modifierNumber').addEventListener('blur', (e) => {
         const val = parseInt(e.target.value);
         if (!isNaN(val)) {
